@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { CustomersComponent } from './customers/customers.component';
+import { CompaniesComponent } from './companies/companies.component';
+import { CustomerExtendedComponent } from './customer-extended/customer-extended.component';
 
 @Component({
   selector: 'app-root',
