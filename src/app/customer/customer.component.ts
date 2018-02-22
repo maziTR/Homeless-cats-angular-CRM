@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import {Customer} from '../models/customer';
+import {Comment} from '../models/comment';
 
 @Component({
-  selector: 'app-customer',
+  selector: 'customer',
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.css']
 })
