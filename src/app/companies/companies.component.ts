@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { CompaniesService } from '../companies.service';
+import { CompanyComponent } from '../company/company.component';
+import {Company} from '../models/company';
 
 @Component({
-  selector: 'app-companies',
+  selector: 'companies',
   templateUrl: './companies.component.html',
   styleUrls: ['./companies.component.css']
 })
+
 export class CompaniesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private companiesServ : CompaniesService) { }
 
   ngOnInit() {
   }
