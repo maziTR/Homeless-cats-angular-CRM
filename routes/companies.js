@@ -3,6 +3,10 @@ var router = express.Router();
 
 var db = require('./db');
 
+router.get('/', function(req, res) {
+  res.send('Here you will see answers to get requests of companies');
+});
+
 /* app.get('/save',function(req,res){
     var post  = {from:'me', to:'you', msg:'hi'};
     db.query('INSERT INTO messages SET ?', post, function(err, result) {

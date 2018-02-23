@@ -1,7 +1,16 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var db = require('./db');
+const db = require('./db');
+
+router.get('/', function(req, res) {
+  db.query("SELECT * FROM customers", function(err, rows, fields) {
+    if (err) console.error(err);
+    else {
+      res.send(rows);
+    }
+  });
+});
 
 /* app.get('/save',function(req,res){
     var post  = {from:'me', to:'you', msg:'hi'};
@@ -10,6 +19,7 @@ var db = require('./db');
     });
 }); */
 
+// -- Initial Data --
 // var customer1 = {id: 1, firstName: 'Mitzi', lastName: 'Cohen', companyId: 3, email: 'mitzi@gmail.com', phone: '050-4325167'};
 // var customer2 = {id: 2, firstName: 'Hairball', lastName: 'Oz', companyId: 2, email: 'hairball@gmail.com', phone: '052-7325167'};
 // var customer3 = {id: 3, firstName: 'Fluffy', lastName: 'Segal', companyId: 1, email: 'fluffy@gmail.com', phone: '054-8325167'}
@@ -38,6 +48,5 @@ var db = require('./db');
 // db.query('INSERT INTO comments SET ?', comment3, function (err, result) {
 //   console.log(result);
 // }); 
-
 
 module.exports = router;
