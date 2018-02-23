@@ -15,8 +15,12 @@ export class CustomersService {
     return this.http.get<Customer[]>('api/customers');
   }
 
+  getCustomer(id: string): Observable<Customer> {
+    return this.http.get<Customer>(`api/customers/${id}`);
+  }
+
   getCustomerComments(id: string): Observable<Comment[]> {
-    return this.http.get<Comment[]>(`api/customers/${id}`);
+    return this.http.get<Comment[]>(`api/customers/${id}/comments`);
   }
 
   addCustomer(newCustomer: Customer, comments: Comment[]): Observable<Customer> {

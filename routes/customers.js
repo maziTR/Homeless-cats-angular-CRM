@@ -14,8 +14,20 @@ router.get('/', (req, res) => {
     });
 });
 
-// get comments for a specific customer
+// get customer
 router.get('/:id', (req, res) => {
+  let customerId = req.params.id;
+  let sqlQuery = `SELECT * from customers WHERE id = ${customerId}`; 
+  db.query(sqlQuery, (err, rows, fields) => {
+    if (err) console.error(err);
+    else {
+      res.send(rows);
+    }
+  });
+});
+
+// get comments for a specific customer
+router.get('/:id/comments', (req, res) => {
   let customerId = req.params.id;
   let sqlQuery = `SELECT * from comments WHERE customerId = ${customerId}`; 
   db.query(sqlQuery, (err, rows, fields) => {

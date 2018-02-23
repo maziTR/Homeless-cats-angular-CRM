@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
 
 import { AppComponent } from './app.component';
 import { CustomersComponent } from './customers/customers.component';
@@ -37,7 +38,8 @@ import { CustomersService } from './customers.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTableModule
   ],
   providers: [CompaniesService, CustomersService],
   bootstrap: [AppComponent]
