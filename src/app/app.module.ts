@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CompaniesService } from './companies.service';
 import { CustomersService } from './customers.service';
 import { AppRoutingModule } from './app-routing.module';
+import { CrmFormComponent } from './crm-form/crm-form.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { AppRoutingModule } from './app-routing.module';
     CustomerExtendedComponent,
     CompaniesComponent,
     CompanyComponent,
-    NavbarComponent
+    NavbarComponent,
+    CrmFormComponent
   ],
   imports: [
     BrowserModule,
