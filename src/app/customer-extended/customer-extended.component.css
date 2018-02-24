@@ -1,0 +1,37 @@
+.customer-card {
+    max-width: 600px;
+    margin: 40px auto;
+    text-align: left;
+}
+
+.customer-header-image {
+    background-image: url('https://i.pinimg.com/originals/96/f3/ee/96f3ee8cb2e88986ad58f9b539fab4a4.png');
+    background-size: cover;
+}
+
+.mat-card-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.mat-card-avatar {
+    height: 50px;
+    width: 50px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+button {
+    text-transform: uppercase;
+    font-weight: bold;
+}

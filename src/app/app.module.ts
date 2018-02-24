@@ -10,6 +10,7 @@ import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { CustomersComponent } from './customers/customers.component';
@@ -19,7 +20,7 @@ import { CompaniesComponent } from './companies/companies.component';
 import { CompanyComponent } from './company/company.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CrmFormComponent } from './crm-form/crm-form.component';
-// import { FilterComponent } from './filter/filter.component';
+import { FilterComponent } from './filter/filter.component';
 
 import { CompaniesService } from './companies.service';
 import { CustomersService } from './customers.service';
@@ -33,7 +34,8 @@ import { CustomersService } from './customers.service';
     CompaniesComponent,
     CompanyComponent,
     NavbarComponent,
-    CrmFormComponent
+    CrmFormComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { CustomersService } from './customers.service';
     MatCheckboxModule,
     MatTableModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCardModule
   ],
   providers: [CompaniesService, CustomersService],
   bootstrap: [AppComponent]

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomersService } from '../customers.service';
 import { Customer } from '../models/customer';
 import { Comment } from '../models/comment';
@@ -10,10 +11,18 @@ import { Comment } from '../models/comment';
   styleUrls: ['./customer-extended.component.css']
 })
 export class CustomerExtendedComponent implements OnInit {
+  customer: Customer = new Customer();
 
-  constructor(private customerServ : CustomersService) { }
+  constructor(private customerService: CustomersService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.customerService.getCustomer(params.id).subscribe(customerData => {
+        this.customer = customerData[0];
+        this.customerService.getCustomerComments(params.id).subscribe(commentsData => {
+          this.customer.comments = commentsData;
+        });
+      });
+    });
   }
-
 }

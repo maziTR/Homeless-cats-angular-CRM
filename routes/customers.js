@@ -3,12 +3,68 @@ const router = express.Router();
 
 const db = require('./db');
 
-/* app.get('/save',function(req,res){
-    var post  = {from:'me', to:'you', msg:'hi'};
-    db.query('INSERT INTO messages SET ?', post, function(err, result) {
-      if (err) throw err;
+// get all customers (without comments)
+router.get('/', (req, res) => {
+  db.query("SELECT customers.id, firstName, lastName, companyId, email, phone, companyName FROM customers " + 
+    "INNER JOIN companies ON companies.id = customers.companyId", (err, rows, fields) => {
+      if (err) console.error(err);
+      else {
+        res.send(rows);
+      }
     });
-}); */
+});
+
+// get customer
+router.get('/:id', (req, res) => {
+  let customerId = req.params.id;
+  let sqlQuery = "SELECT customers.id, firstName, lastName, companyId, email, phone, companyName FROM customers " + 
+    " INNER JOIN companies ON companies.id = customers.companyId" + " WHERE customers.id = " + customerId; 
+  db.query(sqlQuery, (err, rows, fields) => {
+    if (err) console.error(err);
+    else {
+      res.send(rows);
+    }
+  });
+});
+
+// get comments for a specific customer
+router.get('/:id/comments', (req, res) => {
+  let customerId = req.params.id;
+  let sqlQuery = `SELECT * FROM comments WHERE customerId = ${customerId}`; 
+  db.query(sqlQuery, (err, rows, fields) => {
+    if (err) console.error(err);
+    else {
+      res.send(rows);
+    }
+  });
+});
+
+// add a new customer
+router.post('/', (req, res) => {
+  let customer = req.body.customer;
+  let comments = convertCommentsArray(req.body.comments);
+  db.query("INSET INTO comments (id, text, customerId, date) VALUES ?", [comments], (error, result) => {
+    if (error) console.error(error);
+  });
+  var query = db.query("INSERT INTO customers SET ?", customer, (error, result) => {
+    if (error) console.error(error);
+    else {
+      res.send(JSON.stringify(customer));
+    }
+  });
+});
+
+// converts comments array of objects to array of arrays
+function convertCommentsArray(comments) {
+  return comments.map(element => {
+    let array = [];
+    array.push(parseInt(element.id));
+    array.push(element.text);
+    array.push(parseInt(element.customerId));
+    array.push(element.date);
+    return array;
+  });
+}
 
 // -- Initial Data --
 // var customer1 = {id: 1, firstName: 'Mitzi', lastName: 'Cohen', companyId: 3, email: 'mitzi@gmail.com', phone: '050-4325167'};
