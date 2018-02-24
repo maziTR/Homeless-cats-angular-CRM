@@ -5,8 +5,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';
 import { CustomersComponent } from './customers/customers.component';
@@ -16,6 +19,7 @@ import { CompaniesComponent } from './companies/companies.component';
 import { CompanyComponent } from './company/company.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CrmFormComponent } from './crm-form/crm-form.component';
+import { FilterComponent } from './filter/filter.component';
 
 import { CompaniesService } from './companies.service';
 import { CustomersService } from './customers.service';
@@ -29,7 +33,8 @@ import { CustomersService } from './customers.service';
     CompaniesComponent,
     CompanyComponent,
     NavbarComponent,
-    CrmFormComponent
+    CrmFormComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +44,9 @@ import { CustomersService } from './customers.service';
     BrowserAnimationsModule,
     MatButtonModule,
     MatCheckboxModule,
-    MatTableModule
+    MatTableModule,
+    MatInputModule,
+    MatSelectModule
   ],
   providers: [CompaniesService, CustomersService],
   bootstrap: [AppComponent]

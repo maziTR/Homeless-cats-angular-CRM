@@ -1,6 +1,15 @@
 <div class="table-wrapper">
-  <div class="mat-elevation-z2">
-    <mat-table [dataSource]="dataSource">
+
+  <div class="table-header">
+    <h5>Customers</h5>
+    <button mat-button>Add new customer</button>
+  </div>
+
+  <filter></filter>
+
+  <div class="mat-elevation-z2 table-body">
+    <mat-table [dataSource]="customers">
+
       <!-- Id Column -->
       <!-- <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
@@ -39,8 +48,10 @@
 
       <!-- Actions Column -->
       <ng-container matColumnDef="actions">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let element"><i class="fa fa-trash-o"></i></mat-cell>
+        <mat-header-cell class="special-width" *matHeaderCellDef></mat-header-cell>
+        <mat-cell class="special-width" *matCellDef="let element">
+          <i class="fa fa-trash-o"></i>
+        </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

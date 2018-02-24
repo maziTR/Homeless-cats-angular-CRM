@@ -9,7 +9,7 @@ import { Comment } from '../models/comment';
   styleUrls: ['./customers.component.css']
 })
 export class CustomersComponent implements OnInit {
-  dataSource: Customer[];
+  customers: Customer[];
   // displayedColumns = ['id', 'firstName', 'lastName', 'companyName', 'email', 'phone', 'actions'];
   displayedColumns = ['firstName', 'lastName', 'companyName', 'phone', 'actions'];
 
@@ -17,7 +17,7 @@ export class CustomersComponent implements OnInit {
 
   ngOnInit() {
     this.customerService.getCustomers().subscribe(
-      data => this.dataSource = data
+      data => this.customers = data
     );
   }
 }
