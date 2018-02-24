@@ -1,7 +1,20 @@
-<div>{{customer.id}}</div>
-<div>{{customer.firstName}}</div>
-<div>{{customer.lastName}}</div>
-<div>{{customer.companyName}}</div>
-<div>{{customer.email}}</div>
-<div>{{customer.phone}}</div>
-<div *ngFor="let comment of customer.comments">{{comment.text}}</div>
+<mat-card class="customer-card">
+  <mat-card-header>
+    <div mat-card-avatar class="customer-header-image"></div>
+    <mat-card-title>{{customer.firstName}} {{customer.lastName}}</mat-card-title>
+    <mat-card-subtitle>Company: {{customer.companyName}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div><span class="bold">Email:</span> {{customer.email}}</div>
+    <div><span class="bold">Phone number:</span> {{customer.phone}}</div>
+    <ul><span class="bold">Comments:</span>
+      <li *ngFor="let comment of customer.comments"><i class="fa fa-paw"></i> {{comment.text}}</li>
+    </ul>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button>Add comments</button>
+    <button mat-button>Delete customer</button>
+  </mat-card-actions>
+</mat-card>
