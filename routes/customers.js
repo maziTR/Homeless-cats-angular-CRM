@@ -3,9 +3,11 @@ const router = express.Router();
 
 const db = require('./db');
 
+const moment = require('moment');
+
 // get all customers (without comments)
 router.get('/', (req, res) => {
-  db.query("SELECT customers.id, firstName, lastName, companyId, email, phone, companyName FROM customers " + 
+  db.query("SELECT customers.id, firstName, lastName, companyId, email, phone, companyName FROM customers " +
     "INNER JOIN companies ON companies.id = customers.companyId", (err, rows, fields) => {
       if (err) console.error(err);
       else {
@@ -17,8 +19,8 @@ router.get('/', (req, res) => {
 // get customer
 router.get('/:id', (req, res) => {
   let customerId = req.params.id;
-  let sqlQuery = "SELECT customers.id, firstName, lastName, companyId, email, phone, companyName FROM customers " + 
-    " INNER JOIN companies ON companies.id = customers.companyId" + " WHERE customers.id = " + customerId; 
+  let sqlQuery = "SELECT customers.id, firstName, lastName, companyId, email, phone, companyName FROM customers " +
+    " INNER JOIN companies ON companies.id = customers.companyId" + " WHERE customers.id = " + customerId;
   db.query(sqlQuery, (err, rows, fields) => {
     if (err) console.error(err);
     else {
@@ -30,7 +32,7 @@ router.get('/:id', (req, res) => {
 // get comments for a specific customer
 router.get('/:id/comments', (req, res) => {
   let customerId = req.params.id;
-  let sqlQuery = `SELECT * FROM comments WHERE customerId = ${customerId}`; 
+  let sqlQuery = `SELECT * FROM comments WHERE customerId = ${customerId}`;
   db.query(sqlQuery, (err, rows, fields) => {
     if (err) console.error(err);
     else {
@@ -42,11 +44,11 @@ router.get('/:id/comments', (req, res) => {
 // add a new customer
 router.post('/', (req, res) => {
   let customer = req.body.customer;
-  let comments = convertCommentsArray(req.body.comments);
+  let comments = _convertCommentsArray(req.body.comments);
   db.query("INSET INTO comments (id, text, customerId, date) VALUES ?", [comments], (error, result) => {
     if (error) console.error(error);
   });
-  var query = db.query("INSERT INTO customers SET ?", customer, (error, result) => {
+  db.query("INSERT INTO customers SET ?", customer, (error, result) => {
     if (error) console.error(error);
     else {
       res.send(JSON.stringify(customer));
@@ -54,8 +56,40 @@ router.post('/', (req, res) => {
   });
 });
 
+// add comment to customer
+router.post('/:id', (req, res) => {
+  // generate comment id
+  db.query("SELECT * FROM comments", (err, rows, fields) => {
+    if (err) console.error(err);
+    let customerId = req.params.id;
+    let comment = req.body;
+    comment.id = rows.length + 1;
+    // change date of comment to a format mysql understands
+    comment.date = moment(comment.date).format('YYYY-MM-DD');
+    db.query("INSERT INTO comments SET ?", comment, (error, result) => {
+      if (error) console.error(error);
+      res.send(JSON.stringify(comment));
+    });
+  });
+});
+
+// delete a customer
+router.delete('/:id/:companyId', (req, res) => {
+  let customerId = req.params.id;
+  let companyId = req.params.companyId;
+  db.query("DELETE FROM customers WHERE id = " + customerId, (error, result) => {
+    if (error) console.error(error);
+  });
+  // db.query("UPDATE companies SET ? WHERE ?", {id: companyId}, (error, result) => {
+  //   if (error) console.error(error);
+  //   else {
+  //     res.send(JSON.stringify(customer));
+  //   }
+  // });
+});
+
 // converts comments array of objects to array of arrays
-function convertCommentsArray(comments) {
+function _convertCommentsArray(comments) {
   return comments.map(element => {
     let array = [];
     array.push(parseInt(element.id));

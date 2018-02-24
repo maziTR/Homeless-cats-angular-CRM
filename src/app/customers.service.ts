@@ -26,4 +26,8 @@ export class CustomersService {
   addCustomer(newCustomer: Customer, comments: Comment[]): Observable<Customer> {
     return this.http.post<Customer>('api/customers', { customer: newCustomer, comments: comments });
   }
+
+  addComment(customerId: number, comment: Comment): Observable<Comment> {
+    return this.http.post<Comment>(`api/customers/${customerId}`, comment);
+  }
 }

@@ -12,6 +12,8 @@ import { Comment } from '../models/comment';
 })
 export class CustomerExtendedComponent implements OnInit {
   customer: Customer = new Customer();
+  showCommentForm: boolean;
+  newCommentText: string;
 
   constructor(private customerService: CustomersService, private route: ActivatedRoute, private router: Router) { }
 
@@ -23,6 +25,21 @@ export class CustomerExtendedComponent implements OnInit {
           this.customer.comments = commentsData;
         });
       });
+    });
+    this.showCommentForm = false;
+    this.newCommentText = "";
+  }
+
+  toggleCommentForm() {
+    this.showCommentForm = !this.showCommentForm;
+  }
+
+  addComment() {
+    let customerId = this.customer.id;
+    let comment = {text: this.newCommentText, customerId: customerId, date: new Date()};
+    this.customerService.addComment(customerId, comment).subscribe(data =>{
+      this.customer.comments.push(comment);
+      this.toggleCommentForm();
     });
   }
 }
