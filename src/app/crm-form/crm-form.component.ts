@@ -6,10 +6,11 @@ import { Component, OnInit, Input, Output } from '@angular/core';
   styleUrls: ['./crm-form.component.css']
 })
 export class CrmFormComponent implements OnInit {
-//  @Input() visible: boolean;
+  @Input() visible: boolean;
 //  @Input() data: any;
-//  @Output(); // submit + object
-    currKeys: any;
+//  @Input() dog: Dog = new Dog();
+//  @Output(); // submit object
+  currKeys: any;
 
   constructor() { }
 

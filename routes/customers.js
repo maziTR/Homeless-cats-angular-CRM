@@ -3,15 +3,6 @@ const router = express.Router();
 
 const db = require('./db');
 
-router.get('/', function(req, res) {
-  db.query("SELECT * FROM customers", function(err, rows, fields) {
-    if (err) console.error(err);
-    else {
-      res.send(rows);
-    }
-  });
-});
-
 /* app.get('/save',function(req,res){
     var post  = {from:'me', to:'you', msg:'hi'};
     db.query('INSERT INTO messages SET ?', post, function(err, result) {

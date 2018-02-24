@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {Company} from '../models/company';
 
 @Component({
@@ -7,10 +7,12 @@ import {Company} from '../models/company';
   styleUrls: ['./company.component.css']
 })
 export class CompanyComponent implements OnInit {
+  @Input() company:Company;
 
   constructor() { }
 
   ngOnInit() {
+    console.log(this.company.companyName);
   }
 
 }

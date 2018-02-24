@@ -1,4 +1,49 @@
-<p>
-  companies works!
-  <company></company>
-</p>
+<div class="table-wrapper">
+
+    <div class="table-header">
+      <h5>Companies</h5>
+      <button mat-button>Add new company</button>
+    </div>
+  
+    <filter></filter>
+  
+    <div class="mat-elevation-z2 table-body">
+      <mat-table [dataSource]="companies">
+  
+        <!-- Company Name Column -->
+        <ng-container matColumnDef="firstName">
+          <mat-header-cell *matHeaderCellDef> Company Name </mat-header-cell>
+          <mat-cell *matCellDef="let element"> <a [routerLink]="['companies', element.id]">{{element.companyName}}</a> </mat-cell>
+        </ng-container>
+  
+        <!-- Address Column -->
+        <ng-container matColumnDef="lastName">
+          <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
+          <mat-cell *matCellDef="let element"> <a [routerLink]="['companies', element.id]">{{element.address}}</a> </mat-cell>
+        </ng-container>
+        
+        <!-- Country Column -->
+        <ng-container matColumnDef="country">
+          <mat-header-cell *matHeaderCellDef> Country </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.country}} </mat-cell>
+        </ng-container>
+
+          <!-- customers Number Column -->
+          <ng-container matColumnDef="country">
+              <mat-header-cell *matHeaderCellDef> Number of customers </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.customersNum}} </mat-cell>
+          </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <mat-header-cell class="special-width" *matHeaderCellDef></mat-header-cell>
+          <mat-cell class="special-width" *matCellDef="let element">
+            <i class="fa fa-trash-o"></i>
+          </mat-cell>
+        </ng-container>
+  
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>

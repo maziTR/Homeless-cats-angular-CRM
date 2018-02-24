@@ -4,15 +4,21 @@ var router = express.Router();
 var db = require('./db');
 
 router.get('/', function(req, res) {
-  res.send('Here you will see answers to get requests of companies');
+  db.query('SELECT * from companies', function(err, rows, fields) {
+    if (!err)
+     // console.log('The solution is: ', rows);
+      res.send(rows);
+    else
+      console.log('Error while performing Query:' + err);
+  });
 });
 
-/* app.get('/save',function(req,res){
+/*  app.get('/save',function(req,res){
     var post  = {from:'me', to:'you', msg:'hi'};
     db.query('INSERT INTO messages SET ?', post, function(err, result) {
       if (err) throw err;
     });
-}); */
+});  */
 
 // var  company = {
 //     id: 1,
