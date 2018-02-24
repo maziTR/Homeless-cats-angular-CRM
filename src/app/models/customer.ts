@@ -5,8 +5,9 @@ export class Customer{
     id: number;
     firstName: string;
     lastName: string;
-    company: Company;
+    companyId: string;
+    companyName: string;
     email: string;
     phone: string;
-    comments: Comment[];
+    comments?: Comment[];
 }

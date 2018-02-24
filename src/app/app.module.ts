@@ -2,8 +2,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+
+import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';
 import { CustomersComponent } from './customers/customers.component';
@@ -12,12 +19,11 @@ import { CustomerExtendedComponent } from './customer-extended/customer-extended
 import { CompaniesComponent } from './companies/companies.component';
 import { CompanyComponent } from './company/company.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { HttpClientModule } from '@angular/common/http';
+import { CrmFormComponent } from './crm-form/crm-form.component';
+import { FilterComponent } from './filter/filter.component';
+
 import { CompaniesService } from './companies.service';
 import { CustomersService } from './customers.service';
-import { AppRoutingModule } from './app-routing.module';
-import { CrmFormComponent } from './crm-form/crm-form.component';
-
 
 @NgModule({
   declarations: [
@@ -28,7 +34,8 @@ import { CrmFormComponent } from './crm-form/crm-form.component';
     CompaniesComponent,
     CompanyComponent,
     NavbarComponent,
-    CrmFormComponent
+    CrmFormComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +44,10 @@ import { CrmFormComponent } from './crm-form/crm-form.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTableModule,
+    MatInputModule,
+    MatSelectModule
   ],
   providers: [CompaniesService, CustomersService],
   bootstrap: [AppComponent]

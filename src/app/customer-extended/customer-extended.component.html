@@ -1,3 +1,7 @@
-<p>
-  customer-extended works!
-</p>
+<div>{{customer.id}}</div>
+<div>{{customer.firstName}}</div>
+<div>{{customer.lastName}}</div>
+<div>{{customer.companyName}}</div>
+<div>{{customer.email}}</div>
+<div>{{customer.phone}}</div>
+<div *ngFor="let comment of customer.comments">{{comment.text}}</div>

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerComponent } from '../customer/customer.component';
-import { CustomerExtendedComponent } from '../customer-extended/customer-extended.component';
 import { CustomersService } from '../customers.service';
 import { Customer } from '../models/customer';
 import { Comment } from '../models/comment';
@@ -11,10 +9,15 @@ import { Comment } from '../models/comment';
   styleUrls: ['./customers.component.css']
 })
 export class CustomersComponent implements OnInit {
+  customers: Customer[];
+  // displayedColumns = ['id', 'firstName', 'lastName', 'companyName', 'email', 'phone', 'actions'];
+  displayedColumns = ['firstName', 'lastName', 'companyName', 'phone', 'actions'];
 
-  constructor(private customerServ : CustomersService) { }
+  constructor(private customerService: CustomersService) { }
 
   ngOnInit() {
+    this.customerService.getCustomers().subscribe(
+      data => this.customers = data
+    );
   }
-
 }

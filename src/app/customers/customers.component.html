@@ -1,4 +1,49 @@
-<p>
-  customers component works!
-  <customer></customer>
-</p>
+<div class="table-wrapper">
+
+  <div class="table-header">
+    <h5>Customers</h5>
+    <button mat-button>Add new customer</button>
+  </div>
+
+  <filter></filter>
+
+  <div class="mat-elevation-z2 table-body">
+    <mat-table [dataSource]="customers">
+
+      <!-- First Name Column -->
+      <ng-container matColumnDef="firstName">
+        <mat-header-cell *matHeaderCellDef> First Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <a [routerLink]="['customers', element.id]">{{element.firstName}}</a> </mat-cell>
+      </ng-container>
+
+      <!-- Last Name Column -->
+      <ng-container matColumnDef="lastName">
+        <mat-header-cell *matHeaderCellDef> Last Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <a [routerLink]="['customers', element.id]">{{element.lastName}}</a> </mat-cell>
+      </ng-container>
+
+      <!-- Company Name Column -->
+      <ng-container matColumnDef="companyName">
+        <mat-header-cell *matHeaderCellDef> Company Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.companyName}} </mat-cell>
+      </ng-container>
+      
+      <!-- Phone Column -->
+      <ng-container matColumnDef="phone">
+        <mat-header-cell *matHeaderCellDef> Phone number </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.phone}} </mat-cell>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell class="special-width" *matHeaderCellDef></mat-header-cell>
+        <mat-cell class="special-width" *matCellDef="let element">
+          <i class="fa fa-trash-o"></i>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>

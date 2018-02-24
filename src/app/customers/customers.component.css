@@ -1,0 +1,36 @@
+.table-wrapper {
+    margin: 40px auto;
+    max-width: 1000px;
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+}
+
+.table-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    text-align: left;
+}
+
+.table-header {
+    min-height: 64px;
+    padding: 8px 24px 0;
+    background-color: #fff;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    align-items: center;
+}
+
+h5 {
+    font-weight: bold;
+}
+
+.special-width {
+    flex: none;
+    width: 40px;
+}
