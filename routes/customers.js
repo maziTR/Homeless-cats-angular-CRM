@@ -61,15 +61,17 @@ router.post('/:id', (req, res) => {
   // generate comment id
   db.query("SELECT * FROM comments", (err, rows, fields) => {
     if (err) console.error(err);
-    let customerId = req.params.id;
-    let comment = req.body;
-    comment.id = rows.length + 1;
-    // change date of comment to a format mysql understands
-    comment.date = moment(comment.date).format('YYYY-MM-DD');
-    db.query("INSERT INTO comments SET ?", comment, (error, result) => {
-      if (error) console.error(error);
-      res.send(JSON.stringify(comment));
-    });
+    else {
+      let customerId = req.params.id;
+      let comment = req.body;
+      comment.id = rows[rows.length - 1].id + 1;
+      // change date of comment to a format mysql understands
+      comment.date = moment(comment.date).format('YYYY-MM-DD');
+      db.query("INSERT INTO comments SET ?", comment, (error, result) => {
+        if (error) console.error(error);
+        else res.send(JSON.stringify(comment));
+      });
+    }
   });
 });
 
@@ -77,15 +79,26 @@ router.post('/:id', (req, res) => {
 router.delete('/:id/:companyId', (req, res) => {
   let customerId = req.params.id;
   let companyId = req.params.companyId;
-  db.query("DELETE FROM customers WHERE id = " + customerId, (error, result) => {
+  db.query("DELETE FROM comments WHERE customerId = " + customerId, (error, result) => {
     if (error) console.error(error);
+    else {
+      db.query("DELETE FROM customers WHERE id = " + customerId, (error, result) => {
+        if (error) console.error(error);
+      });
+    }
   });
-  // db.query("UPDATE companies SET ? WHERE ?", {id: companyId}, (error, result) => {
-  //   if (error) console.error(error);
-  //   else {
-  //     res.send(JSON.stringify(customer));
-  //   }
-  // });
+  db.query("SELECT * FROM companies WHERE id = " + companyId, (error, rows, fields) => {
+    if (error) console.error(error);
+    else {
+      let customersNum = rows[0].customersNum - 1;
+      db.query("UPDATE companies SET ? WHERE ?", [{ customersNum: customersNum }, { id: companyId }], (error, result) => {
+        if (error) console.error(error);
+        else {
+          res.status(200).send({});
+        }
+      });
+    }
+  });
 });
 
 // converts comments array of objects to array of arrays

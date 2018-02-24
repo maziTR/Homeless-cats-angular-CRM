@@ -30,4 +30,8 @@ export class CustomersService {
   addComment(customerId: number, comment: Comment): Observable<Comment> {
     return this.http.post<Comment>(`api/customers/${customerId}`, comment);
   }
+
+  deleteCustomer(customer: Customer): Observable<{}> {
+    return this.http.delete<{}>(`api/customers/${customer.id}/${customer.companyId}`);
+  }
 }

@@ -42,4 +42,10 @@ export class CustomerExtendedComponent implements OnInit {
       this.toggleCommentForm();
     });
   }
+
+  deleteCustomer() {
+    this.customerService.deleteCustomer(this.customer).subscribe(data => {
+      this.router.navigate(['/']);
+    });
+  }
 }
