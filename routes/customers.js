@@ -17,7 +17,8 @@ router.get('/', (req, res) => {
 // get customer
 router.get('/:id', (req, res) => {
   let customerId = req.params.id;
-  let sqlQuery = `SELECT * from customers WHERE id = ${customerId}`; 
+  let sqlQuery = "SELECT customers.id, firstName, lastName, companyId, email, phone, companyName FROM customers " + 
+    " INNER JOIN companies ON companies.id = customers.companyId" + " WHERE customers.id = " + customerId; 
   db.query(sqlQuery, (err, rows, fields) => {
     if (err) console.error(err);
     else {
@@ -29,7 +30,7 @@ router.get('/:id', (req, res) => {
 // get comments for a specific customer
 router.get('/:id/comments', (req, res) => {
   let customerId = req.params.id;
-  let sqlQuery = `SELECT * from comments WHERE customerId = ${customerId}`; 
+  let sqlQuery = `SELECT * FROM comments WHERE customerId = ${customerId}`; 
   db.query(sqlQuery, (err, rows, fields) => {
     if (err) console.error(err);
     else {

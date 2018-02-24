@@ -10,22 +10,16 @@
   <div class="mat-elevation-z2 table-body">
     <mat-table [dataSource]="customers">
 
-      <!-- Id Column -->
-      <!-- <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
-      </ng-container> -->
-
       <!-- First Name Column -->
       <ng-container matColumnDef="firstName">
         <mat-header-cell *matHeaderCellDef> First Name </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.firstName}} </mat-cell>
+        <mat-cell *matCellDef="let element"> <a [routerLink]="['customers', element.id]">{{element.firstName}}</a> </mat-cell>
       </ng-container>
 
       <!-- Last Name Column -->
       <ng-container matColumnDef="lastName">
         <mat-header-cell *matHeaderCellDef> Last Name </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.lastName}} </mat-cell>
+        <mat-cell *matCellDef="let element"> <a [routerLink]="['customers', element.id]">{{element.lastName}}</a> </mat-cell>
       </ng-container>
 
       <!-- Company Name Column -->
@@ -33,13 +27,7 @@
         <mat-header-cell *matHeaderCellDef> Company Name </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.companyName}} </mat-cell>
       </ng-container>
-
-      <!-- Email Column -->
-      <!-- <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
-      </ng-container> -->
-
+      
       <!-- Phone Column -->
       <ng-container matColumnDef="phone">
         <mat-header-cell *matHeaderCellDef> Phone number </mat-header-cell>
