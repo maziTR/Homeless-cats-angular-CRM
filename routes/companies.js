@@ -6,12 +6,38 @@ var db = require('./db');
 router.get('/', function(req, res) {
   db.query('SELECT * from companies', function(err, rows, fields) {
     if (!err)
-     // console.log('The solution is: ', rows);
       res.send(rows);
     else
       console.log('Error while performing Query:' + err);
   });
 });
+
+/* router.delete('/:id', function(req, res) {
+  db.query('SELECT * from companies', function(err, rows, fields) {
+    if (!err)
+      res.send(rows);
+    else
+      console.log('Error while performing Query:' + err);
+  });
+}); */
+
+/* router.post('/add/:id', function(req, res) {
+  
+  db.query('SELECT * from companies', function(err, rows, fields) {
+    if (!err)
+    {
+      db.query('INSERT INTO companies SET ?', company, function (err, result) {
+      console.log(result);
+      });
+      res.send(rows);
+    }
+    else
+      console.log('Error while performing Query:' + err);
+  });
+}); */
+// db.query('INSERT INTO companies SET ?', company1, function (err, result) {
+//     console.log(result);
+// });
 
 /*  app.get('/save',function(req,res){
     var post  = {from:'me', to:'you', msg:'hi'};

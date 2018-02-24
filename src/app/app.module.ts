@@ -11,6 +11,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { CustomersComponent } from './customers/customers.component';
@@ -48,8 +49,10 @@ import { CustomersService } from './customers.service';
     MatTableModule,
     MatInputModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule
   ],
+  entryComponents: [CrmFormComponent, CompaniesComponent],
   providers: [CompaniesService, CustomersService],
   bootstrap: [AppComponent]
 })

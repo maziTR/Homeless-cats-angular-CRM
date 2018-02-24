@@ -9,8 +9,16 @@ export class CompaniesService {
   constructor(private http: HttpClient) {}
   
   getCompanies() : Observable<Company[]> {
-    console.log(this.http.get<Company[]>('/api/companies'));
     return this.http.get<Company[]>('/api/companies')
+  }
+  
+/*   deleteCompany(company:Company): Observable<{}> {
+    this.http.delete<Company>('/api/companies')
+    return this.http.delete<{}>('/api/companies/' + company.id );
+  } */
+
+  addCompany(newCompany: Company) : Observable<Company>{
+    return this.http.post<Company>('/api/companies', { company: Company });
   }
 
 }
