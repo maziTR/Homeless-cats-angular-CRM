@@ -12,10 +12,10 @@ export class CompaniesService {
     return this.http.get<Company[]>('/api/companies')
   }
   
-/*   deleteCompany(company:Company): Observable<{}> {
-    this.http.delete<Company>('/api/companies')
-    return this.http.delete<{}>('/api/companies/' + company.id );
-  } */
+  deleteCompany(id:number): Observable<{}> {
+    /* this.http.delete<Company>('/api/companies') */
+    return this.http.delete<{}>('/api/companies/' + id );
+  }
 
   addCompany(company: Company) : Observable<Company>{
     return this.http.post<Company>('/api/companies',  company );

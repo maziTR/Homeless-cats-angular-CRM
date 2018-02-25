@@ -12,21 +12,13 @@ router.get('/', function(req, res) {
   });
 });
 
-/* router.delete('/:id', function(req, res) {
-  db.query('SELECT * from companies', function(err, rows, fields) {
-    if (!err)
-      res.send(rows);
-    else
-      console.log('Error while performing Query:' + err);
+router.delete('/:id', function(req, res) {
+  let companyId = req.params.id;
+  db.query("DELETE FROM companies WHERE id = "+ companyId, function (err, result) {
+    console.log(result);
+    res.status(200).send({});
   });
-}); */
-
-/* router.post('/dogs', (req, res) => {
-  var dog = req.body.dog;
-  dog.id = generateId();
-  DOGS.push(dog);
-  res.send(JSON.stringify(dog));
-}); */
+});
 
 router.post('/', function(req, res) {
   db.query('SELECT MAX(id) AS id FROM companies', function (err, result, fields){

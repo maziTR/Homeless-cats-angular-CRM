@@ -26,12 +26,14 @@ export class CompaniesComponent implements OnInit {
     });
   }
 
-/*   delEntry(id:number){
+  delEntry(id:number){
+    let currInd = this.companies.findIndex(item => item.id === id);
     this.companiesServ.deleteCompany(id)
     .subscribe(data => {
-      this.companies = data;
+      this.companies.splice(currInd,1);
+      this.dataSource = new MatTableDataSource(this.companies);
     });
-  } */
+  }
 
   openDialog(): void {
     let dialogRef = this.dialog.open(CrmFormComponent, {
