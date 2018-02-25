@@ -31,7 +31,15 @@ li {
     list-style: none;
 }
 
-button {
+.customer-card-button {
     text-transform: uppercase;
     font-weight: bold;
+}
+
+a, a:visited {
+    color: black;
+}
+
+.mat-card-footer {
+    margin: 0px;
 }

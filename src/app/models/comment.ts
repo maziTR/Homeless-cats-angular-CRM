@@ -1,5 +1,6 @@
 export class Comment{
-    id: number;
-    text:string;
+    id?: number;
+    text: string;
     date: Date;
+    customerId: number;
 }
