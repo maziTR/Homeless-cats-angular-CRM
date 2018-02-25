@@ -7,9 +7,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class FilterComponent implements OnInit {
   selected: string;
-  // @Input() filterOptions: any[];
-  // @Input() selectedTermToFilter: {term: string, table: string, column: string};
-  // @Output() termChanged: EventEmitter<any> = new EventEmitter<any>();
+  @Input() filterOptions: any[];
+  @Input() selectedTermToFilter: {term: string, table: string, column: string};
+  @Output() termChanged: EventEmitter<any> = new EventEmitter<any>();
 
 
   constructor() { }
@@ -18,8 +18,8 @@ export class FilterComponent implements OnInit {
     this.selected = '0';
   }
 
-  // updateTerm() {
-  //   this.selectedTermToFilter.column = this.filterOptions[parseInt(this.selected)].optionKey;
-  //   this.termChanged.emit(this.selectedTermToFilter);
-  // }
+  updateTerm() {
+    this.selectedTermToFilter.column = this.filterOptions[parseInt(this.selected)].optionKey;
+    this.termChanged.emit(this.selectedTermToFilter);
+  }
 }

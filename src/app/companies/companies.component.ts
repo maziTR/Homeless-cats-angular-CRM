@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../companies.service';
 import { Company } from '../models/company';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { CrmFormComponent } from '../crm-form/crm-form.component'
 
 @Component({
@@ -15,6 +15,10 @@ export class CompaniesComponent implements OnInit {
   displayedColumns = ['companyName', 'address', 'country', 'customersNum', 'actions'];
   dialogFields = ['companyName', 'address', 'country', 'customersNum'];
   dataSource: MatTableDataSource<Company>;
+
+  filterOptions: any[]; // options for the select component
+  selectedTermToFilter: { term: string, column: string }; // object to the input filter
+
   constructor(private companiesServ : CompaniesService, public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -23,6 +27,12 @@ export class CompaniesComponent implements OnInit {
       this.dataSource = new MatTableDataSource(data);
       this.companies = data;
     });
+    this.filterOptions = [
+      { optionName: 'Company Name', optionKey: 'companyName' },
+      { optionName: 'Address', optionKey: 'address' },
+      { optionName: 'Country', optionKey: 'country' }
+    ];
+    this.selectedTermToFilter = { term: '', column: '' };
   }
 
   delEntry(id:number){
@@ -50,5 +60,13 @@ export class CompaniesComponent implements OnInit {
     }
     console.log('The dialog was closed');
     });
+  }
+
+  updateFilter(filterObject) {
+    this.companiesServ.getFilteredCompanies(filterObject)
+      .subscribe(data => {
+        this.dataSource = new MatTableDataSource(data);
+        this.companies = data;
+      });
   }
 }
