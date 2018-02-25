@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Customer } from './models/customer';
 import { Comment } from './models/comment';
@@ -13,6 +13,14 @@ export class CustomersService {
 
   getCustomers(): Observable<Customer[]> {
     return this.http.get<Customer[]>('api/customers');
+  }
+
+  getCustomersFiltered(filterObject): Observable<Customer[]> {
+    let params = new HttpParams();
+    params.set('term', filterObject.term);
+    params.set('table', filterObject.table);
+    params.set('column', filterObject.column);
+    return this.http.get<Customer[]>('api/customers', {params: params});
   }
 
   getCustomer(id: string): Observable<Customer> {

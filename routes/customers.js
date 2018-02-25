@@ -7,6 +7,10 @@ const moment = require('moment');
 
 // get all customers (without comments)
 router.get('/', (req, res) => {
+  // refactor according to customers.service
+  // if (req.query.text) {
+  //   console.log(req.query.text);
+  // }
   db.query("SELECT customers.id, firstName, lastName, companyId, email, phone, companyName FROM customers " +
     "INNER JOIN companies ON companies.id = customers.companyId", (err, rows, fields) => {
       if (err) console.error(err);

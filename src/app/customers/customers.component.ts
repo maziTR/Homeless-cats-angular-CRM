@@ -13,6 +13,8 @@ export class CustomersComponent implements OnInit {
   customers: Customer[];
   dataSource: MatTableDataSource<Customer>;
   displayedColumns = ['firstName', 'lastName', 'companyName', 'phone', 'actions'];
+  filterOptions: any[]; // options for the select component
+  selectedTermToFilter: {term: string, table: string, column: string}; // object to the input filter
 
   constructor(private customerService: CustomersService) { }
 
@@ -23,6 +25,12 @@ export class CustomersComponent implements OnInit {
         this.customers = data;
       }
     );
+    this.filterOptions = [
+      {optionName: 'Name', optionKey: 'firstName'},
+      {optionName: 'Company', optionKey: 'company'},
+      {optionName: 'Email', optionKey: 'email'}
+    ];
+    this.selectedTermToFilter = {term: '', table: 'customers', column: ''};
   }
 
   deleteCustomer(customer: Customer) {
@@ -31,5 +39,13 @@ export class CustomersComponent implements OnInit {
       this.customers.splice(i, 1);
       this.dataSource = new MatTableDataSource(this.customers);
     });
+  }
+
+  updateFilter(filterObject) {
+    this.customerService.getCustomersFiltered(filterObject)
+      .subscribe(data => {
+        this.dataSource = new MatTableDataSource(data);
+        this.customers = data;
+      });
   }
 }
