@@ -1,11 +1,11 @@
 export class Company{
-    id: number;
+    id?: number;
     companyName: string;
     address:string;
     country:string;
     customersNum:number;
-    constructor(id, companyName,address,country,customersNum){
-        this.id = id;
+    
+    constructor(companyName,address,country,customersNum){
         this.companyName = companyName;
         this.address = address;
         this.country= country;

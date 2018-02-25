@@ -10,6 +10,7 @@ router.get('/', function(req, res) {
     else
       console.log('Error while performing Query:' + err);
   });
+ // generateId();
 });
 
 /* router.delete('/:id', function(req, res) {
@@ -21,20 +22,29 @@ router.get('/', function(req, res) {
   });
 }); */
 
-/* router.post('/add/:id', function(req, res) {
-  
-  db.query('SELECT * from companies', function(err, rows, fields) {
-    if (!err)
-    {
-      db.query('INSERT INTO companies SET ?', company, function (err, result) {
-      console.log(result);
-      });
-      res.send(rows);
-    }
-    else
-      console.log('Error while performing Query:' + err);
-  });
+/* router.post('/dogs', (req, res) => {
+  var dog = req.body.dog;
+  dog.id = generateId();
+  DOGS.push(dog);
+  res.send(JSON.stringify(dog));
 }); */
+
+router.post('/', function(req, res) {
+  db.query('SELECT MAX(id) AS id FROM companies', function (err, result, fields){
+    req.body.id = result[0].id +1;
+    db.query('INSERT INTO companies SET ?', req.body, function (err, result) {
+      if (!err){
+      res.send(result);
+      }
+      else {
+        throw err;
+      }
+    });
+  })
+     
+    //  console.log("in add " + generateId());
+});
+
 // db.query('INSERT INTO companies SET ?', company1, function (err, result) {
 //     console.log(result);
 // });

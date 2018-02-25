@@ -21,7 +21,6 @@ export class CrmFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
     onNoClick(): void {
-      console.log(this.object)
       this.dialogRef.close();
     }
 
@@ -36,7 +35,7 @@ export class CrmFormComponent implements OnInit {
       this.object = this.data.object;
     }
 
-    trackByIndex(index: number, obj: any): any {
+/*     trackByIndex(index: number, obj: any): any {
       return index;
-    }
+    } */
 }

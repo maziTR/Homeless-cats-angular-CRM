@@ -5,8 +5,6 @@ import { Company } from '../models/company';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { CrmFormComponent } from '../crm-form/crm-form.component'
 
-// import {MatTableModule} from '@angular/material/table';
-
 @Component({
   selector: 'companies',
   templateUrl: './companies.component.html',
@@ -20,7 +18,6 @@ export class CompaniesComponent implements OnInit {
   constructor(private companiesServ : CompaniesService, public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.company = new Company(0,"","","",0);
     this.companiesServ.getCompanies()
     .subscribe(data => {
       this.companies = data;
@@ -33,20 +30,20 @@ export class CompaniesComponent implements OnInit {
       this.companies = data;
     });
   } */
-  addCompany(company:Company){
-
-  }
 
   openDialog(): void {
     let dialogRef = this.dialog.open(CrmFormComponent, {
       width: '250px',
-      data: {object: this.company, displayedColumns: this.displayedColumns}
+      data: {object: new Company("","","",0) , displayedColumns: this.displayedColumns}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-     // this.company = result.bindingKeys;
-      console.log(result.bindingKeys)
+      if (result){
+      this.companiesServ.addCompany(result.object).subscribe(data =>
+        this.companies.push(data)
+      )
+    }
+    console.log('The dialog was closed');
     });
   }
 }

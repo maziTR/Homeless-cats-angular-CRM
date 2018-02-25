@@ -17,8 +17,8 @@ export class CompaniesService {
     return this.http.delete<{}>('/api/companies/' + company.id );
   } */
 
-  addCompany(newCompany: Company) : Observable<Company>{
-    return this.http.post<Company>('/api/companies', { company: Company });
+  addCompany(company: Company) : Observable<Company>{
+    return this.http.post<Company>('/api/companies',  company );
   }
 
 }
