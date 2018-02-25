@@ -10,7 +10,6 @@ router.get('/', function(req, res) {
     else
       console.log('Error while performing Query:' + err);
   });
- // generateId();
 });
 
 /* router.delete('/:id', function(req, res) {
@@ -34,15 +33,13 @@ router.post('/', function(req, res) {
     req.body.id = result[0].id +1;
     db.query('INSERT INTO companies SET ?', req.body, function (err, result) {
       if (!err){
-      res.send(result);
+      res.send(req.body);
       }
       else {
         throw err;
       }
     });
   })
-     
-    //  console.log("in add " + generateId());
 });
 
 // db.query('INSERT INTO companies SET ?', company1, function (err, result) {

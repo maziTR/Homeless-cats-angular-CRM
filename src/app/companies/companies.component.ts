@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../companies.service';
 import { CompanyComponent } from '../company/company.component';
 import { Company } from '../models/company';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource} from '@angular/material';
 import { CrmFormComponent } from '../crm-form/crm-form.component'
 
 @Component({
@@ -14,12 +14,14 @@ import { CrmFormComponent } from '../crm-form/crm-form.component'
 export class CompaniesComponent implements OnInit {
   companies: Company[];
   displayedColumns = ['companyName', 'address', 'country', 'customersNum', 'actions'];
-  company: Company;
+  dialogFields = ['companyName', 'address', 'country', 'customersNum'];
+  dataSource: MatTableDataSource<Company>;
   constructor(private companiesServ : CompaniesService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.companiesServ.getCompanies()
     .subscribe(data => {
+      this.dataSource = new MatTableDataSource(data);
       this.companies = data;
     });
   }
@@ -34,13 +36,15 @@ export class CompaniesComponent implements OnInit {
   openDialog(): void {
     let dialogRef = this.dialog.open(CrmFormComponent, {
       width: '250px',
-      data: {object: new Company("","","",0) , displayedColumns: this.displayedColumns, title: 'company'}
+      data: {object: new Company("","","",0) , displayedColumns: this.dialogFields, title: 'company'}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-      this.companiesServ.addCompany(result.object).subscribe(data =>
-        this.companies.push(data)
+      this.companiesServ.addCompany(result.object).subscribe(data =>{
+        this.companies.push(data);
+        this.dataSource = new MatTableDataSource(this.companies);
+       }
       )
     }
     console.log('The dialog was closed');
