@@ -8,7 +8,7 @@
     <filter></filter>
   
     <div class="mat-elevation-z2 table-body">
-      <mat-table [dataSource]="companies">
+      <mat-table [dataSource]="dataSource">
   
         <!-- Company Name Column -->
         <ng-container matColumnDef="companyName">
@@ -38,7 +38,7 @@
         <ng-container matColumnDef="actions">
           <mat-header-cell class="special-width" *matHeaderCellDef></mat-header-cell>
           <mat-cell class="special-width" *matCellDef="let element">
-            <i class="fa fa-trash-o"></i>
+            <i (click)='delEntry(element.id)' class="fa fa-trash-o"></i>
           </mat-cell>
         </ng-container>
   
