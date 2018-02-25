@@ -17,7 +17,7 @@ export class CustomersComponent implements OnInit {
   dialogFields = ['firstName', 'lastName', 'companyId', 'email', 'phone'];
 
   filterOptions: any[]; // options for the select component
-  selectedTermToFilter: { term: string, table: string, column: string }; // object to the input filter
+  selectedTermToFilter: { term: string, column: string }; // object to the input filter
 
   constructor(private customerService: CustomersService, public dialog: MatDialog) { }
 
@@ -29,11 +29,12 @@ export class CustomersComponent implements OnInit {
       }
     );
     this.filterOptions = [
-      { optionName: 'Name', optionKey: 'firstName' },
-      { optionName: 'Company', optionKey: 'company' },
-      { optionName: 'Email', optionKey: 'email' }
+      { optionName: 'First Name', optionKey: 'firstName' },
+      { optionName: 'Last Name', optionKey: 'lastName' },
+      { optionName: 'Company', optionKey: 'companyName' },
+      { optionName: 'Phone', optionKey: 'phone' }
     ];
-    this.selectedTermToFilter = { term: '', table: 'customers', column: '' };
+    this.selectedTermToFilter = { term: '', column: '' };
   }
 
   deleteCustomer(customer: Customer) {
@@ -42,14 +43,6 @@ export class CustomersComponent implements OnInit {
       this.customers.splice(i, 1);
       this.dataSource = new MatTableDataSource(this.customers);
     });
-  }
-
-  updateFilter(filterObject) {
-    this.customerService.getCustomersFiltered(filterObject)
-      .subscribe(data => {
-        this.dataSource = new MatTableDataSource(data);
-        this.customers = data;
-      });
   }
 
   openDialog(): void {
@@ -67,5 +60,13 @@ export class CustomersComponent implements OnInit {
       }
       console.log('The dialog was closed');
     });
+  }
+
+  updateFilter(filterObject) {
+    this.customerService.getFilteredCustomers(filterObject)
+      .subscribe(data => {
+        this.dataSource = new MatTableDataSource(data);
+        this.customers = data;
+      });
   }
 }

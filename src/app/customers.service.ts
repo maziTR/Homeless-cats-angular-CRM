@@ -15,12 +15,8 @@ export class CustomersService {
     return this.http.get<Customer[]>('api/customers');
   }
 
-  getCustomersFiltered(filterObject): Observable<Customer[]> {
-    let params = new HttpParams();
-    params.set('term', filterObject.term);
-    params.set('table', filterObject.table);
-    params.set('column', filterObject.column);
-    return this.http.get<Customer[]>('api/customers', {params: params});
+  getFilteredCustomers(filterObject): Observable<Customer[]> {
+    return this.http.get<Customer[]>('api/customers', {params: filterObject});
   }
 
   getCustomer(id: string): Observable<Customer> {

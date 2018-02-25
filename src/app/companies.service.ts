@@ -21,4 +21,7 @@ export class CompaniesService {
     return this.http.post<Company>('/api/companies',  company );
   }
 
+  getFilteredCompanies(filterObject): Observable<Company[]> {
+    return this.http.get<Company[]>('api/companies', {params: filterObject});
+  }
 }

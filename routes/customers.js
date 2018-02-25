@@ -7,17 +7,24 @@ const moment = require('moment');
 
 // get all customers (without comments)
 router.get('/', (req, res) => {
-  // refactor according to customers.service
-  // if (req.query.text) {
-  //   console.log(req.query.text);
-  // }
-  db.query("SELECT customers.id, firstName, lastName, companyId, email, phone, companyName FROM customers " +
+  if (req.query.term) {
+    db.query("SELECT customers.id, firstName, lastName, companyId, email, phone, companyName FROM customers " +
+      "INNER JOIN companies ON companies.id = customers.companyId WHERE " + req.query.column + " LIKE '%" + 
+      req.query.term + "%'", (err, rows, fields) => {
+        if (err) console.error(err);
+        else {
+          res.send(rows);
+        }
+      });
+  } else {
+    db.query("SELECT customers.id, firstName, lastName, companyId, email, phone, companyName FROM customers " +
     "INNER JOIN companies ON companies.id = customers.companyId", (err, rows, fields) => {
       if (err) console.error(err);
       else {
         res.send(rows);
       }
     });
+  }
 });
 
 // get customer
@@ -80,12 +87,11 @@ router.post('/', (req, res) => {
 // add comment to customer
 router.post('/:id', (req, res) => {
   // generate comment id
-  db.query("SELECT * FROM comments", (err, rows, fields) => {
+  db.query('SELECT MAX(id) AS id FROM comments', (err, rows, fields) => {
     if (err) console.error(err);
     else {
-      let customerId = req.params.id;
       let comment = req.body;
-      comment.id = rows[rows.length - 1].id + 1;
+      comment.id = rows[0].id + 1;
       // change date of comment to a format mysql understands
       comment.date = moment(comment.date).format('YYYY-MM-DD');
       db.query("INSERT INTO comments SET ?", comment, (error, result) => {

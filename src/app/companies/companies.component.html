@@ -5,7 +5,8 @@
       <button mat-raised-button (click)="openDialog()">Add new company</button>
     </div>
   
-    <filter></filter>
+    <filter [filterOptions]="filterOptions" [selectedTermToFilter]="selectedTermToFilter" (termChanged)="updateFilter($event)">
+    </filter>
   
     <div class="mat-elevation-z2 table-body">
       <mat-table [dataSource]="dataSource">
