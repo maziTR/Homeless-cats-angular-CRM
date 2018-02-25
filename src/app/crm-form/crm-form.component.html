@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Hi</h1>
 <div mat-dialog-content>
-  <p>Add a new </p>
+  <p>Add a new {{data.title}}</p>
   <div *ngFor="let currKey of displayKeys; let ind = index;">
     <mat-form-field>
      <input [(ngModel)]="data.object[currKey]" placeholder="{{displayKeys[ind]}}" name='{{displayKeys[ind]}}' matInput [ngModelOptions]="{standalone: true}">

@@ -7,10 +7,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
   styleUrls: ['./crm-form.component.css']
 })
 export class CrmFormComponent implements OnInit {
-//  @Input() visible: boolean;
-//  @Input() data: any;
-//  @Input() dog: Dog = new Dog();
-//  @Output(); // submit object
+
   object: any;
   objectKeys: any;
   displayKeys: any;
