@@ -34,7 +34,7 @@ export class CompaniesComponent implements OnInit {
   openDialog(): void {
     let dialogRef = this.dialog.open(CrmFormComponent, {
       width: '250px',
-      data: {object: new Company("","","",0) , displayedColumns: this.displayedColumns}
+      data: {object: new Company("","","",0) , displayedColumns: this.displayedColumns, title: 'company'}
     });
 
     dialogRef.afterClosed().subscribe(result => {
