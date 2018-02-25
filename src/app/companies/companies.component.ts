@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../companies.service';
-import { CompanyComponent } from '../company/company.component';
 import { Company } from '../models/company';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource} from '@angular/material';
 import { CrmFormComponent } from '../crm-form/crm-form.component'
