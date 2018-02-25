@@ -41,3 +41,12 @@ h5 {
     flex: none;
     width: 40px;
 }
+
+i {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+i:hover {
+    color: #e90101;
+}

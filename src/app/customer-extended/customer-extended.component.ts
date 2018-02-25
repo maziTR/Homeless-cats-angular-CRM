@@ -11,7 +11,7 @@ import { Comment } from '../models/comment';
   styleUrls: ['./customer-extended.component.css']
 })
 export class CustomerExtendedComponent implements OnInit {
-  customer: Customer = new Customer();
+  customer: Customer = new Customer('', '', 0, '', '');
   showCommentForm: boolean;
   newCommentText: string;
 

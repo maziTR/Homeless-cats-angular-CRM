@@ -47,16 +47,33 @@ router.get('/:id/comments', (req, res) => {
 
 // add a new customer
 router.post('/', (req, res) => {
-  let customer = req.body.customer;
-  let comments = _convertCommentsArray(req.body.comments);
-  db.query("INSET INTO comments (id, text, customerId, date) VALUES ?", [comments], (error, result) => {
-    if (error) console.error(error);
-  });
-  db.query("INSERT INTO customers SET ?", customer, (error, result) => {
-    if (error) console.error(error);
-    else {
-      res.send(JSON.stringify(customer));
-    }
+  let customer = req.body;
+  // might be used in the future for adding a new customer with comments
+  // let comments = _convertCommentsArray(req.body.comments);
+  // db.query("INSET INTO comments (id, text, customerId, date) VALUES ?", [comments], (error, result) => {
+  //   if (error) console.error(error);
+  // });
+  db.query('SELECT MAX(id) AS id FROM customers', (err, rows, fields) => {
+    customer.id = rows[0].id + 1;
+    db.query('INSERT INTO customers SET ?', customer, (error, result) => {
+      if (error) console.error(error);
+      else {
+        db.query(`SELECT * FROM companies WHERE id = ${customer.companyId}`, (err, rows, fields) => {
+          if (error) console.error(error);
+          else {
+            customer.companyName = rows[0].companyName;
+            let customersNum = rows[0].customersNum + 1;
+            db.query("UPDATE companies SET ? WHERE ?", [{ customersNum: customersNum }, { id: customer.companyId }],
+              (error, result) => {
+                if (error) console.error(error);
+                else {
+                  res.send(JSON.stringify(customer));
+                }
+            });
+          }
+        });
+      }
+    });
   });
 });
 
@@ -105,17 +122,17 @@ router.delete('/:id/:companyId', (req, res) => {
   });
 });
 
-// converts comments array of objects to array of arrays
-function _convertCommentsArray(comments) {
-  return comments.map(element => {
-    let array = [];
-    array.push(parseInt(element.id));
-    array.push(element.text);
-    array.push(parseInt(element.customerId));
-    array.push(element.date);
-    return array;
-  });
-}
+// converts comments array of objects to array of arrays - not used since new customer is created without any comments
+// function _convertCommentsArray(comments) {
+//   return comments.map(element => {
+//     let array = [];
+//     array.push(parseInt(element.id));
+//     array.push(element.text);
+//     array.push(parseInt(element.customerId));
+//     array.push(element.date);
+//     return array;
+//   });
+// }
 
 // -- Initial Data --
 // var customer1 = {id: 1, firstName: 'Mitzi', lastName: 'Cohen', companyId: 3, email: 'mitzi@gmail.com', phone: '050-4325167'};

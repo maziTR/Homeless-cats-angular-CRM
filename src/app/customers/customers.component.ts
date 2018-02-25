@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CustomersService } from '../customers.service';
 import { Customer } from '../models/customer';
 import { Comment } from '../models/comment';
-import { MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
+import { CrmFormComponent } from '../crm-form/crm-form.component';
 
 @Component({
-  selector: 'app-customers',
+  selector: 'customers',
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.css']
 })
@@ -13,10 +14,12 @@ export class CustomersComponent implements OnInit {
   customers: Customer[];
   dataSource: MatTableDataSource<Customer>;
   displayedColumns = ['firstName', 'lastName', 'companyName', 'phone', 'actions'];
-  filterOptions: any[]; // options for the select component
-  selectedTermToFilter: {term: string, table: string, column: string}; // object to the input filter
+  dialogFields = ['firstName', 'lastName', 'companyId', 'email', 'phone'];
 
-  constructor(private customerService: CustomersService) { }
+  filterOptions: any[]; // options for the select component
+  selectedTermToFilter: { term: string, table: string, column: string }; // object to the input filter
+
+  constructor(private customerService: CustomersService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.customerService.getCustomers().subscribe(
@@ -26,11 +29,11 @@ export class CustomersComponent implements OnInit {
       }
     );
     this.filterOptions = [
-      {optionName: 'Name', optionKey: 'firstName'},
-      {optionName: 'Company', optionKey: 'company'},
-      {optionName: 'Email', optionKey: 'email'}
+      { optionName: 'Name', optionKey: 'firstName' },
+      { optionName: 'Company', optionKey: 'company' },
+      { optionName: 'Email', optionKey: 'email' }
     ];
-    this.selectedTermToFilter = {term: '', table: 'customers', column: ''};
+    this.selectedTermToFilter = { term: '', table: 'customers', column: '' };
   }
 
   deleteCustomer(customer: Customer) {
@@ -47,5 +50,22 @@ export class CustomersComponent implements OnInit {
         this.dataSource = new MatTableDataSource(data);
         this.customers = data;
       });
+  }
+
+  openDialog(): void {
+    let dialogRef = this.dialog.open(CrmFormComponent, {
+      width: '250px',
+      data: { object: new Customer('', '', 1, '', ''), displayedColumns: this.dialogFields, title: 'customer' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.customerService.addCustomer(result.object).subscribe(data => {
+          this.customers.push(data);
+          this.dataSource = new MatTableDataSource(this.customers);
+        });
+      }
+      console.log('The dialog was closed');
+    });
   }
 }
