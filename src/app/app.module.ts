@@ -15,10 +15,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { CustomersComponent } from './customers/customers.component';
-import { CustomerComponent } from './customer/customer.component';
 import { CustomerExtendedComponent } from './customer-extended/customer-extended.component';
 import { CompaniesComponent } from './companies/companies.component';
-import { CompanyComponent } from './company/company.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CrmFormComponent } from './crm-form/crm-form.component';
 import { FilterComponent } from './filter/filter.component';
@@ -30,10 +28,8 @@ import { CustomersService } from './customers.service';
   declarations: [
     AppComponent,
     CustomersComponent,
-    CustomerComponent,
     CustomerExtendedComponent,
     CompaniesComponent,
-    CompanyComponent,
     NavbarComponent,
     CrmFormComponent,
     FilterComponent
