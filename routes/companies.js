@@ -3,29 +3,38 @@ var router = express.Router();
 
 var db = require('./db');
 
-router.get('/', function(req, res) {
-  db.query('SELECT * from companies', function(err, rows, fields) {
-    if (!err)
-      res.send(rows);
-    else
-      console.log('Error while performing Query:' + err);
-  });
+router.get('/', function (req, res) {
+  if (req.query.term) {
+    db.query(`SELECT * from companies WHERE ${req.query.column} LIKE '%${req.query.term}%'`, function (err, rows, fields) {
+      if (!err)
+        res.send(rows);
+      else
+        console.log('Error while performing Query:' + err);
+    });
+  } else {
+    db.query('SELECT * from companies', function (err, rows, fields) {
+      if (!err)
+        res.send(rows);
+      else
+        console.log('Error while performing Query:' + err);
+    });
+  }
 });
 
-router.delete('/:id', function(req, res) {
+router.delete('/:id', function (req, res) {
   let companyId = req.params.id;
-  db.query("DELETE FROM companies WHERE id = "+ companyId, function (err, result) {
+  db.query("DELETE FROM companies WHERE id = " + companyId, function (err, result) {
     console.log(result);
     res.status(200).send({});
   });
 });
 
-router.post('/', function(req, res) {
-  db.query('SELECT MAX(id) AS id FROM companies', function (err, result, fields){
-    req.body.id = result[0].id +1;
+router.post('/', function (req, res) {
+  db.query('SELECT MAX(id) AS id FROM companies', function (err, result, fields) {
+    req.body.id = result[0].id + 1;
     db.query('INSERT INTO companies SET ?', req.body, function (err, result) {
-      if (!err){
-      res.send(req.body);
+      if (!err) {
+        res.send(req.body);
       }
       else {
         throw err;
