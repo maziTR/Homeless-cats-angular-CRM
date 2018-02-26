@@ -8,7 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class FilterComponent implements OnInit {
   selected: string;
   @Input() filterOptions: any[];
-  @Input() selectedTermToFilter: {term: string, table: string, column: string};
+  @Input() selectedTermToFilter: { term: string, column: string };
   @Output() termChanged: EventEmitter<any> = new EventEmitter<any>();
 
 
