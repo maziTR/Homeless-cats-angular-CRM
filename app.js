@@ -1,23 +1,80 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const http = require('http');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const customers = require('./routes/customers');
+const companies = require('./routes/companies');
 
-var customers = require('./routes/customers');
-var companies = require('./routes/companies');
+//Authentication
+const LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport');
+const expressSession=require('express-session');
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
-app.use(express.static(path.join(__dirname, 'dist')));
-app.use('/', express.static(path.join(__dirname, 'dist')));
+
+function authOnly(req,res,next){
+  if (req.isAuthenticated()){
+     next();
+  } else {
+      res.redirect('/login');
+  }
+}
+
+//Authentication middleware
+app.use(expressSession({ secret: 'thisIsASecret', resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  console.log(user);
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.use(new LocalStrategy(
+  //    { passReqToCallback : true},
+    function(username, password, done) {
+      if ((username === "john") && (password === "password")) {
+        return done(null, { username: username, id: 1 });
+      } else {
+        return done(null, false, "Failed to login.");
+      }
+    }
+  ));
+
+  app.get('/userDetails',authOnly, function (req, res){
+      res.send(req.user);
+  });
+
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'src/Login.html'));
+});
+
+app.get('/logout', function (req, res) {
+  req.logout();
+  res.send('Logged out!');
+});
+
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login?err'
+}));
+
+app.use(authOnly, express.static(path.join(__dirname, 'dist')));
+/* app.use('/', express.static(path.join(__dirname, 'dist'))); */
 app.use('/api/customers', customers);
 app.use('/api/companies', companies);
 
-app.get('*', function(req, res) {
+app.get('*',authOnly, function(req, res) {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
