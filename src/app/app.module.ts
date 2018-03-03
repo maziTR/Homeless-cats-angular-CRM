@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -23,6 +23,9 @@ import { FilterComponent } from './filter/filter.component';
 
 import { CompaniesService } from './companies.service';
 import { CustomersService } from './customers.service';
+import { LoginComponent } from './login/login.component';
+import { AuthService } from './auth.service';
+import { AuthInterceptor } from './AuthInterceptor';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { CustomersService } from './customers.service';
     CompaniesComponent,
     NavbarComponent,
     CrmFormComponent,
-    FilterComponent
+    FilterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +53,11 @@ import { CustomersService } from './customers.service';
     MatDialogModule
   ],
   entryComponents: [CrmFormComponent, CompaniesComponent],
-  providers: [CompaniesService, CustomersService],
+  providers: [CompaniesService, CustomersService, AuthService,
+    {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

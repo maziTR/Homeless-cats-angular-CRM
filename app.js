@@ -10,35 +10,17 @@ const companies = require('./routes/companies');
 //Authentication
 const LocalStrategy = require('passport-local').Strategy;
 const passport = require('passport');
-const expressSession=require('express-session');
-
+const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 const app = express();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
 
-function authOnly(req,res,next){
-  if (req.isAuthenticated()){
-     next();
-  } else {
-      res.redirect('/login');
-  }
-}
-
 //Authentication middleware
-app.use(expressSession({ secret: 'thisIsASecret', resave: false, saveUninitialized: false }));
+
 app.use(passport.initialize());
-app.use(passport.session());
-
-passport.serializeUser(function(user, done) {
-  console.log(user);
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
 
 passport.use(new LocalStrategy(
   //    { passReqToCallback : true},
@@ -49,32 +31,33 @@ passport.use(new LocalStrategy(
         return done(null, false, "Failed to login.");
       }
     }
-  ));
+  )); 
 
-  app.get('/userDetails',authOnly, function (req, res){
+  const checkIfAuthenticated = expressJwt({
+    secret: 'thisIsTopSecret'
+});
+
+  app.get('/userDetails',checkIfAuthenticated, function (req, res){
       res.send(req.user);
   });
-
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src/Login.html'));
-});
 
 app.get('/logout', function (req, res) {
   req.logout();
   res.send('Logged out!');
 });
 
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login?err'
-}));
+app.post('/form', passport.authenticate('local', { session: false }),
+  (req, res) => {
+    var token = jwt.sign(req.user, 'thisIsTopSecret', { expiresIn: "7d" });
+    res.send({token});
+});
 
-app.use(authOnly, express.static(path.join(__dirname, 'dist')));
-/* app.use('/', express.static(path.join(__dirname, 'dist'))); */
+app.use( express.static(path.join(__dirname, 'dist')));
+ app.use('/', express.static(path.join(__dirname, 'dist')));
 app.use('/api/customers', customers);
 app.use('/api/companies', companies);
 
-app.get('*',authOnly, function(req, res) {
+app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
